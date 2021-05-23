@@ -10,6 +10,8 @@ public class main {
     public static Semaphore semRecursos = new Semaphore(1);
     public static Semaphore semVacunar = new Semaphore(1);
     public static Semaphore semVacunacion = new Semaphore(1);
+    public static Semaphore agregar = new Semaphore(0);
+    public static Semaphore eliminar = new Semaphore(0);
 
     public static void main(String[] args) {
     }
@@ -82,7 +84,10 @@ public class main {
             while(true) {
                 try {
                     semListaDeEspera.acquire(); // Espero por Agenda para poder entrar
+                    agregar.release();
                     //Agrego al usuario a listaDeEspera(de forma ordenada por prioridad)
+                    //lo hago en un semaforo porque es una zona critica
+                    agregar.acquire();
                     semRecursos.release(); // permito acceder a Recursos()
 
                 } catch (InterruptedException e) {
@@ -121,9 +126,13 @@ public class main {
             while(true) {
                 try {
                     semComunicacion.acquire(); // Espero a que hayan recursos
+                    eliminar.release();
                     //MANDO MENSAJE
                     // MANDO INFORMACION AL VACUNATORIO CON DATOS DEL USUARIO QUE VA
                     // A IR A VACUNARSE
+                    // ELIMINO DE LA LISTA Y LO HAGO CON SEMAFOROS PORQUE
+                    //ES UNA ZONA CRITICA
+                    eliminar.acquire();
                     semVacunar.release(); // Permito vacunar
                 } catch (InterruptedException e) {
                     e.printStackTrace();
