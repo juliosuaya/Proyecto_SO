@@ -1,9 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
+
 public class main {
+    public static List<Agenda> agenda = new ArrayList<>();
+    public static Semaphore semComunicacion = new Semaphore(1);
+    public static Semaphore semAgenda = new Semaphore(1);
+    public static Semaphore semListaDeEspera = new Semaphore(1);
+    public static Semaphore semRecursos = new Semaphore(1);
+    public static Semaphore semVacunar = new Semaphore(1);
+    public static Semaphore semVacunacion = new Semaphore(1);
 
     public static void main(String[] args) {
-
-
-
     }
 
 
@@ -28,6 +36,15 @@ public class main {
         @Override
         public void run() {
             while(true) {
+                try {
+                    semAgenda.release(); // una vez que pasa por usuario le permite pasar a Agenda
+                    semVacunar.acquire(); // hasta que no le llegue el mensaje no se va a vacunar
+                    semVacunacion.release(); //Permito entrar a Vacunacion()
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             }
         }
@@ -36,16 +53,19 @@ public class main {
 
 
     public static class Agenda implements Runnable{
-//te pide los datos y te mete en la lista de espera
-        private String nombre;
-        private String apellido;
-        private int edad;
-        private int barrio;
-        private String cedula;
+//toma los datos del usuario y lo mete en la lista de espera
+
 
         @Override
         public void run() {
             while(true) {
+                try {
+                    semAgenda.acquire(); // Espero por usuario para poder entrar
+                    //con los datos le doy una prioridad
+                    semListaDeEspera.release(); // una vez obtenida la prioridad permito entrar a ListaDeEspera()
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             }
         }
@@ -60,7 +80,14 @@ public class main {
         @Override
         public void run() {
             while(true) {
+                try {
+                    semListaDeEspera.acquire(); // Espero por Agenda para poder entrar
+                    //Agrego al usuario a listaDeEspera(de forma ordenada por prioridad)
+                    semRecursos.release(); // permito acceder a Recursos()
 
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -72,7 +99,14 @@ public class main {
         @Override
         public void run() {
             while(true) {
+                try {
+                    semRecursos.acquire(); //Espero a que se agende a la lista
+                    //Compruebo que hayan los recursos
+                    semComunicacion.release(); // permito entrar a Comunicacion()
 
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -85,7 +119,15 @@ public class main {
         @Override
         public void run() {
             while(true) {
-
+                try {
+                    semComunicacion.acquire(); // Espero a que hayan recursos
+                    //MANDO MENSAJE
+                    // MANDO INFORMACION AL VACUNATORIO CON DATOS DEL USUARIO QUE VA
+                    // A IR A VACUNARSE
+                    semVacunar.release(); // Permito vacunar
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -97,6 +139,13 @@ public class main {
         @Override
         public void run() {
             while(true) {
+                try {
+                    semVacunacion.acquire(); //Espero a que se le asigne fecha y lugar a un usuario para vacunarse
+                    //SE VACUNA USUARIO
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         }
