@@ -1,43 +1,19 @@
 package com;
 
-public class Usuario extends Thread {
+public class Usuario {
 
     private String cedula;
     private String nombre;
-    private String apellido;
-    private String barrio;
-    private int edad;
-    public String mensaje;
-    public boolean vacunado;
+    public int prioridad;
 
-    public Usuario(String cedula, String nombre, String apellido, String barrio, int edad) {
+    public Usuario(String cedula, String nombre, int prioridad) {
         this.cedula = cedula;
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.barrio = barrio;
-        this.edad = edad;
-        this.vacunado=false;
-        this.mensaje="";
+        this.prioridad = prioridad % 3;
+        System.out.println("El usuario: "+this.getNombre()+ " esta iniciando el proceso. En el tiempo " + Reloj.getTiempo());
     }
-
 
     public String getNombre(){
-        return this.nombre + " " +this.apellido;
+        return this.nombre;
     }
-
-    @Override
-    public void run() {
-        //while(true) {
-        try {
-            Main.semAgenda.release();
-            System.out.println("El usuario: "+this.getNombre()+ " esta iniciando el proceso");
-            Main.semVacunandose.acquire();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        //}
-    }
-
 }
