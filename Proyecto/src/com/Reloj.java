@@ -1,22 +1,27 @@
 package com;
 
 public class Reloj extends Thread {
-    private static volatile int tiempo = 0;
+    private static int tiempo = 0;
+    private Agenda agenda;
     private Recursos[] recursos;
     private ListaEspera listaEspera;
 
-    public Reloj(Recursos[] rec, ListaEspera listaEspera) {
+    public Reloj(Recursos[] rec, ListaEspera listaEspera, Agenda agenda) {
         this.recursos = rec;
         this.listaEspera = listaEspera;
+        this.agenda = agenda;
     }
 
     @Override
     public void run() {
         soltarTodosRecursos();
-        while (tiempo < 200) {
+        while (!this.listaEspera.seTerminoListaEspera()) {
+
             tomarTodosRecursos();
+            agenda.soltarSemaforo();
+            agenda.tomarSemaforo();
             tiempo++;
-            if(tiempo % 5 == 0) {
+            if(tiempo % 3 == 0) {
                 try {
                     listaEspera.semaforoListaEspera.release();
                     listaEspera.semaforoListaEspera.acquire();
@@ -25,22 +30,28 @@ public class Reloj extends Thread {
                     e.printStackTrace();
                 }
             }
-
             soltarTodosRecursos();
 
         }
+        terminarEjecucionRecursos();
+    }
 
+    private void terminarEjecucionRecursos() {
+        for (Recursos recurso : recursos) {
+            recurso.terminoEjecucionRecurso();
+            recurso.reanudarRecurso();
+        }
     }
 
     private void soltarTodosRecursos() {
         for (Recursos recurso : recursos) {
-            recurso.soltarSemaforo();
+            recurso.reanudarRecurso();
         }
     }
 
     private void tomarTodosRecursos() {
         for (Recursos recurso : recursos) {
-            recurso.tomarSemaforo();
+            recurso.pausarRecurso();
         }
     }
 
