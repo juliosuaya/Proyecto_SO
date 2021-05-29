@@ -9,7 +9,7 @@ public class Agenda extends Thread {
 
     private Usuario[][] usuarios = {
             {},
-            {new Usuario("1", "Juan Perez", 3),
+            {new Usuario("1", "Juan Rodriguez", 3),
                     new Usuario("2", "Carlos Perez", 4),
                     new Usuario("3", "Teodoro Fernandez", 2)},
             {new Usuario("4", "Ricardo Arjona", 3),
