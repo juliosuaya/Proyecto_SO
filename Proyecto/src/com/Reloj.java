@@ -14,10 +14,10 @@ public class Reloj extends Thread {
 
     @Override
     public void run() {
-        soltarTodosRecursos();
-        while (!this.listaEspera.seTerminoListaEspera()) {
+        soltarTodosRecursos();//Libero sem1 que es el semaforo de los recursos ???
+        while (!this.listaEspera.seTerminoListaEspera()) { // Mientras que no se termine la lista de espera
 
-            tomarTodosRecursos();
+            tomarTodosRecursos(); // Tranco sem1 que es el semaforo de los recursos ???
             agenda.soltarSemaforo();
             agenda.tomarSemaforo();
             tiempo++;

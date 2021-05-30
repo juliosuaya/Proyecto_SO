@@ -50,7 +50,7 @@ public class Agenda extends Thread {
     public void run() {
         while(true) {
             try {
-                semaforoAgenda.acquire();
+                semaforoAgenda.acquire(); //Una vez que entra, tranco el semaforo de Agenda
                 if(!agregarAgendados(Reloj.getTiempo())) {
                     semaforoAgenda.release();
                     break;
@@ -65,20 +65,20 @@ public class Agenda extends Thread {
     private boolean agregarAgendados(int i) {
         if(usuarios.length <= i) return false;
         try {
-            listaEspera.semaforoListaNuevosAgendados.acquire();
-            this.listaEspera.listaNuevosAgendados.addAll(Arrays.asList(usuarios[i]));
-            for(Usuario us : usuarios[i]){us.iniciarVacunacion();}
+            listaEspera.semaforoListaNuevosAgendados.acquire(); //Tranco semaforo de lista de espera para asignar
+            this.listaEspera.listaNuevosAgendados.addAll(Arrays.asList(usuarios[i]));//Agrego todos los usuarios de una fila i de la matriz a listaNuevosAgendados
+            for(Usuario us : usuarios[i]){us.iniciarVacunacion();} //Inicio la vacunacion de cada usuario de la fila i
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         finally {
-            listaEspera.semaforoListaNuevosAgendados.release();
+            listaEspera.semaforoListaNuevosAgendados.release();// Una vez asignados e iniciada sus vacunaciones, libero semaforo
         }
         return true;
     }
 
-    public void tomarSemaforo() {
+    public void tomarSemaforo() {  //Tranca semaforo de Agenda
         try {
             semaforoAgenda.acquire();
         } catch (InterruptedException e) {
@@ -88,5 +88,5 @@ public class Agenda extends Thread {
 
     public void soltarSemaforo() {
         semaforoAgenda.release();
-    }
+    } //Libera semaforo de Agenda
 }
