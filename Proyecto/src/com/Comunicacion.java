@@ -14,10 +14,9 @@ public class Comunicacion extends Thread {
     public void run() {
         //while(true) {
         try {
-            sem.acquire(); // Espero a que hayan recursos
-           // this.usuario.mensaje="Vaya a vacunarse a ";
+            sem.acquire(); // Tomo sem
             System.out.println("Se comunica al usuario que puede ir a vacunarse");
-            sem.release(); //
+            sem.release(); // Libero sem
 
         } catch (InterruptedException e) {
             e.printStackTrace();

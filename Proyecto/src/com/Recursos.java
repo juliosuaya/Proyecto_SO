@@ -24,17 +24,17 @@ public class Recursos extends Thread {
     public void run() {
         while(!this.fin) {
             try {
-                sem1.acquire();
+                sem1.acquire(); // Tomo sem1, para pausar los recursos
 
-                usuario = listaEspera.getAgendado();
-                if(usuario != null) {
-                    Main.imprimir.acquire();
+                usuario = listaEspera.getAgendado(); //Obtengo agendado por prioridad y despues por FCFS
+                if(usuario != null) { // Si la agenda no estaba vacia
+                    Main.imprimir.acquire(); // Tomo semaforo para imprimir
                     System.out.println("El centro: "+this.centro+" esta disponible, con el vacunador: "+this.vacunador+" y la vacuna: "+this.vacuna);
                     System.out.println("Se vacuna a el usuario: "+ usuario+ " En el momento "+ Reloj.getTiempo());
-                    Main.imprimir.release();
+                    Main.imprimir.release(); // Libero semaforo para imprimir
                 }
 
-                sem2.release();
+                sem2.release(); //Libero sem2 reanudar los recursos
 
             } catch (Exception e) {
         }
@@ -42,7 +42,7 @@ public class Recursos extends Thread {
         }
     }
 
-    public void reanudarRecurso() {
+    public void reanudarRecurso() { // Libero sem1 para reanudar los recursos
         sem1.release();
     }
 
@@ -50,7 +50,7 @@ public class Recursos extends Thread {
        fin = true;
     }
 
-    public void pausarRecurso() {
+    public void pausarRecurso() { //Tomo sem2 para pausar los recursos
         try {
             sem2.acquire();
         }

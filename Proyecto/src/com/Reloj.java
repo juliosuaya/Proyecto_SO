@@ -17,7 +17,7 @@ public class Reloj extends Thread {
         soltarTodosRecursos();//Libero sem1 que es el semaforo de los recursos tanta veces como recursos
         while (!this.listaEspera.seTerminoListaEspera()) { // Mientras que no se termine la lista de espera
 
-            tomarTodosRecursos(); // Tomo sem1 tanta veces como recursos
+            tomarTodosRecursos(); // Tomo sem2 de recursos tanta veces como recursos
             agenda.soltarSemaforo();
             agenda.tomarSemaforo();
             tiempo++;
