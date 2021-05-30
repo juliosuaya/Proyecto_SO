@@ -16,15 +16,16 @@ public class ListaEspera extends Thread {
 
     @Override
     public void run() {
-        while(!seTermino) {
+        while(!seTermino) { // hasta que no se setee seTermino en true
             try {
-                semaforoListaEspera.acquire();
-                semaforoListaNuevosAgendados.acquire();
+                semaforoListaEspera.acquire(); // Tomo semaforo de lista de espera
+                semaforoListaNuevosAgendados.acquire(); // tomo semaforo de lista de nuevos agendados
 
-                clasificar();
+                clasificar(); // clasifica a los usuarios segun su prioridad
                 Main.imprimir("Se vuelve a planificar "+Reloj.getTiempo());
-                semaforoListaNuevosAgendados.release();
-                semaforoListaEspera.release();
+
+                semaforoListaNuevosAgendados.release(); // libero semaforo de lista de nuevos agendados
+                semaforoListaEspera.release(); // Libero semaforo de lista de espera
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -33,38 +34,40 @@ public class ListaEspera extends Thread {
 
     private void clasificar() {
         try {
-            semaforoColaListaEspera.acquire();
+            semaforoColaListaEspera.acquire();  // tomo semaforo de la cola de lista de espera
             for (Usuario agendado : listaNuevosAgendados) {
-                cola[agendado.prioridad].add(agendado);
+                cola[agendado.prioridad].add(agendado); // agrego a cada uno a su cola respecto su prioridad
             }
-            listaNuevosAgendados.clear();
-            semaforoColaListaEspera.release();
+            listaNuevosAgendados.clear(); // listo la lista de nuevos agendados
+            semaforoColaListaEspera.release(); // libero semaforo de la cola de lista de espera
         } catch (Exception e) {e.printStackTrace();}
     }
 
-    public synchronized Usuario getAgendado() {
+    //Mientras estoy clasificando no puedo obtener un agendado y viceversa
+
+    public synchronized Usuario getAgendado() { //Retorna un agendado basandose en la prioridad y FCFS
         try {
-            semaforoColaListaEspera.acquire();
+            semaforoColaListaEspera.acquire(); // Tomo semaforo de la cola de lista de espera
             Usuario res;
-            if(!cola[0].isEmpty()) {
+            if(!cola[0].isEmpty()) { //Si la cola de prioridad 0 no esta vacia
                 res = cola[0].remove();
             }
-            else if(!cola[1].isEmpty()) {
+            else if(!cola[1].isEmpty()) { //Si la cola de prioridad 1 no esta vacia
                 res = cola[1].remove();
             }
-            else if(!cola[2].isEmpty()) {
+            else if(!cola[2].isEmpty()) { //Si la cola de prioridad 2 no esta vacia
                 res = cola[2].remove();
             }
-            else if(!cola[3].isEmpty()) {
+            else if(!cola[3].isEmpty()) { //Si la cola de prioridad 3 no esta vacia
                 res = cola[3].remove();
             }
-            else {
+            else { // Si todas estan vacias es porque no hay mas agendados
                 res = null;
                 if(noMasAgendados) {
                     seTermino = true;
                 }
             }
-            semaforoColaListaEspera.release();
+            semaforoColaListaEspera.release(); // Libero semaforo de la cola de lista de espera
             return res;
         }
         catch (Exception e){}
@@ -72,7 +75,7 @@ public class ListaEspera extends Thread {
 
     }
 
-    public void noHayMasAgenda() {
+    public void noHayMasAgenda() { // Seteo que no hay mas agendados
         this.noMasAgendados = true;
     }
 

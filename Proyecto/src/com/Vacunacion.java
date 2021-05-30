@@ -19,7 +19,7 @@ public class Vacunacion extends Thread {
            // this.usuario.vacunado=true;
             System.out.println("El usuario: "+this.usuario.getNombre()+ " fue vacunado");
         //    this.listaDeEspera.listaEspera.remove(this.usuario);
-            sem.release();
+            sem.release(); // Una vez vacunado se libera
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

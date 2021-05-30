@@ -17,7 +17,7 @@ public class Comunicacion extends Thread {
             sem.acquire(); // Espero a que hayan recursos
            // this.usuario.mensaje="Vaya a vacunarse a ";
             System.out.println("Se comunica al usuario que puede ir a vacunarse");
-            sem.release();
+            sem.release(); //
 
         } catch (InterruptedException e) {
             e.printStackTrace();

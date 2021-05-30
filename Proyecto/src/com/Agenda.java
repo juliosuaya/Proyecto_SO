@@ -50,22 +50,22 @@ public class Agenda extends Thread {
     public void run() {
         while(true) {
             try {
-                semaforoAgenda.acquire(); //Una vez que entra, tranco el semaforo de Agenda
-                if(!agregarAgendados(Reloj.getTiempo())) {
-                    semaforoAgenda.release();
+                semaforoAgenda.acquire(); //Una vez que entra, tomo semaforo de Agenda
+                if(!agregarAgendados(Reloj.getTiempo())) { // Si termina la agenda
+                    semaforoAgenda.release(); // Libero semaforo agenda
                     break;
                 }
-                semaforoAgenda.release();
+                semaforoAgenda.release(); // Libero semaforo de agenda
             }
             catch (Exception e) {}
         }
-        listaEspera.noHayMasAgenda();
+        listaEspera.noHayMasAgenda(); // Seteo que no hay mas agenda
     }
 
     private boolean agregarAgendados(int i) {
         if(usuarios.length <= i) return false;
         try {
-            listaEspera.semaforoListaNuevosAgendados.acquire(); //Tranco semaforo de lista de espera para asignar
+            listaEspera.semaforoListaNuevosAgendados.acquire(); //Tomo semaforo de lista de espera para asignar
             this.listaEspera.listaNuevosAgendados.addAll(Arrays.asList(usuarios[i]));//Agrego todos los usuarios de una fila i de la matriz a listaNuevosAgendados
             for(Usuario us : usuarios[i]){us.iniciarVacunacion();} //Inicio la vacunacion de cada usuario de la fila i
 
@@ -78,7 +78,7 @@ public class Agenda extends Thread {
         return true;
     }
 
-    public void tomarSemaforo() {  //Tranca semaforo de Agenda
+    public void tomarSemaforo() {  //Toma semaforo de Agenda
         try {
             semaforoAgenda.acquire();
         } catch (InterruptedException e) {

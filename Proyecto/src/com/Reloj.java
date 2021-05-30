@@ -14,10 +14,10 @@ public class Reloj extends Thread {
 
     @Override
     public void run() {
-        soltarTodosRecursos();//Libero sem1 que es el semaforo de los recursos ???
+        soltarTodosRecursos();//Libero sem1 que es el semaforo de los recursos tanta veces como recursos
         while (!this.listaEspera.seTerminoListaEspera()) { // Mientras que no se termine la lista de espera
 
-            tomarTodosRecursos(); // Tranco sem1 que es el semaforo de los recursos ???
+            tomarTodosRecursos(); // Tomo sem1 tanta veces como recursos
             agenda.soltarSemaforo();
             agenda.tomarSemaforo();
             tiempo++;
@@ -33,25 +33,25 @@ public class Reloj extends Thread {
             soltarTodosRecursos();
 
         }
-        terminarEjecucionRecursos();
+        terminarEjecucionRecursos(); //Termino cada uno de los recursos y Libero sem1 tantas veces como recursos
     }
 
     private void terminarEjecucionRecursos() {
         for (Recursos recurso : recursos) {
-            recurso.terminoEjecucionRecurso();
-            recurso.reanudarRecurso();
+            recurso.terminoEjecucionRecurso(); // Termino cada uno de los recursos
+            recurso.reanudarRecurso(); // Libero sem1 por cada recurso
         }
     }
 
     private void soltarTodosRecursos() {
         for (Recursos recurso : recursos) {
-            recurso.reanudarRecurso();
+            recurso.reanudarRecurso(); // Libero sem1 por cada recurso
         }
     }
 
     private void tomarTodosRecursos() {
         for (Recursos recurso : recursos) {
-            recurso.pausarRecurso();
+            recurso.pausarRecurso(); //Ocupo sem1 por cada recurso
         }
     }
 
