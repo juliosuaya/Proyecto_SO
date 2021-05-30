@@ -40,7 +40,9 @@ public class Agenda extends Thread {
     };
 
     public ListaEspera listaEspera;
-    public Semaphore semaforoAgenda = new Semaphore(0, true);
+    public Semaphore semaforo1Agenda = new Semaphore(0);
+    public Semaphore semaforo2Agenda = new Semaphore(0);
+    public boolean termino = false;
 
     public Agenda(ListaEspera listaEspera){
         this.listaEspera=listaEspera;
@@ -48,14 +50,13 @@ public class Agenda extends Thread {
 
     @Override
     public void run() {
-        while(true) {
+        while(!termino) {
             try {
-                semaforoAgenda.acquire(); //Una vez que entra, tomo semaforo de Agenda
-                if(!agregarAgendados(Reloj.getTiempo())) { // Si termina la agenda
-                    semaforoAgenda.release(); // Libero semaforo agenda
-                    break;
+                semaforo1Agenda.acquire(); //Una vez que entra, tomo semaforo de Agenda
+                if(!agregarAgendados(Reloj.getTiempo())) { // si no se va a anotar mas gente
+                    termino = true;
                 }
-                semaforoAgenda.release(); // Libero semaforo de agenda
+                semaforo2Agenda.release(); // Libero semaforo de agenda
             }
             catch (Exception e) {}
         }
@@ -64,29 +65,19 @@ public class Agenda extends Thread {
 
     private boolean agregarAgendados(int i) {
         if(usuarios.length <= i) return false;
-        try {
-            listaEspera.semaforoListaNuevosAgendados.acquire(); //Tomo semaforo de lista de espera para asignar
-            this.listaEspera.listaNuevosAgendados.addAll(Arrays.asList(usuarios[i]));//Agrego todos los usuarios de una fila i de la matriz a listaNuevosAgendados
-            for(Usuario us : usuarios[i]){us.iniciarVacunacion();} //Inicio la vacunacion de cada usuario de la fila i
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        finally {
-            listaEspera.semaforoListaNuevosAgendados.release();// Una vez asignados e iniciada sus vacunaciones, libero semaforo
-        }
+        listaEspera.agregarAgendados(usuarios[i]);
         return true;
     }
 
     public void tomarSemaforo() {  //Toma semaforo de Agenda
         try {
-            semaforoAgenda.acquire();
+            semaforo2Agenda.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public void soltarSemaforo() {
-        semaforoAgenda.release();
+        semaforo1Agenda.release();
     } //Libera semaforo de Agenda
 }

@@ -12,19 +12,23 @@ public class Reloj extends Thread {
         this.agenda = agenda;
     }
 
+    /*Cada iteracion del ciclo while, permite correr una iteracion
+    a cada recurso, a la agenda y a la lista de espera cuando corresponde */
     @Override
     public void run() {
         soltarTodosRecursos();//Libero sem1 que es el semaforo de los recursos tanta veces como recursos
         while (!this.listaEspera.seTerminoListaEspera()) { // Mientras que no se termine la lista de espera
 
             tomarTodosRecursos(); // Tomo sem2 de recursos tanta veces como recursos
-            agenda.soltarSemaforo();
-            agenda.tomarSemaforo();
+            if(!agenda.termino){
+                agenda.soltarSemaforo();
+                agenda.tomarSemaforo();
+            }
             tiempo++;
-            if(tiempo % 3 == 0) {
+            if(tiempo % 3 == 0) { // Se planifica una vez cada 3 ciclos.
                 try {
-                    listaEspera.semaforoListaEspera.release();
-                    listaEspera.semaforoListaEspera.acquire();
+                    listaEspera.soltarSemaforo();
+                    listaEspera.tomarSemaforo();
                 }
                 catch (Exception e){
                     e.printStackTrace();
