@@ -1,5 +1,6 @@
 package com;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -7,38 +8,7 @@ import java.util.concurrent.Semaphore;
 
 public class Agenda extends Thread {
 
-    private Usuario[][] usuarios = {
-            {},
-            {new Usuario("1", "Juan Rodriguez", 3),
-                    new Usuario("2", "Carlos Perez", 4),
-                    new Usuario("3", "Teodoro Fernandez", 2)},
-            {new Usuario("4", "Ricardo Arjona", 3),
-                    new Usuario("5", "Roberto Carlos", 1),
-                    new Usuario("6", "Cecilia Paredes", 2)},
-            {new Usuario("7", "Pedro Fontes", 4),
-                    new Usuario("8", "Diego Perez", 3),
-                    new Usuario("9", "Nicolas Nicolas", 4)},
-            {new Usuario("10", "Agustina Pereiria", 1),
-                    new Usuario("11", "Osvaldo Blanco", 3),
-                    new Usuario("12", "Paola Paola", 1)},
-            {new Usuario("13", "Ximena Pereira", 2),
-                    new Usuario("14", "Gonzalo Gonzalo", 3),
-                    new Usuario("15", "Silvana Rodriguez", 2)},
-            {new Usuario("16", "Oscar Tabarez", 4),
-                    new Usuario("17", "Luis Miguel", 3),
-                    new Usuario("18", "Gabriel Gabriel", 3)},
-            {},
-            {new Usuario("19", "Carlos Rodriguez", 2),
-                    new Usuario("20", "Nicole Neumann", 1),
-                    new Usuario("21", "Marcelo Tinelli", 4)},
-            {new Usuario("22", "David David", 2),
-                    new Usuario("23", "Diego Rodriguez", 2),
-                    new Usuario("24", "Juan Rodriguez", 1)},
-            {new Usuario("25", "Nicolas Baldez", 3),
-                    new Usuario("26", "Luis Suarez", 2),
-                    new Usuario("27", "Edison Cavani", 3)}
-    };
-
+    private ArrayList<ArrayList<Usuario>> usuarios;
     public ListaEspera listaEspera;
     public Semaphore semaforo1Agenda = new Semaphore(0);
     public Semaphore semaforo2Agenda = new Semaphore(0);
@@ -46,6 +16,7 @@ public class Agenda extends Thread {
 
     public Agenda(ListaEspera listaEspera){
         this.listaEspera=listaEspera;
+        usuarios = Utils.cargarUsuarios();
     }
 
     @Override
@@ -64,8 +35,8 @@ public class Agenda extends Thread {
     }
 
     private boolean agregarAgendados(int i) {
-        if(usuarios.length <= i) return false;
-        listaEspera.agregarAgendados(usuarios[i]);
+        if(usuarios.size() <= i) return false;
+        listaEspera.agregarAgendados(usuarios.get(i));
         return true;
     }
 

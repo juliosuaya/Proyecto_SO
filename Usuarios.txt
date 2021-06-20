@@ -1,0 +1,11 @@
+
+1, Juan Rodriguez, 3, 2, Carlos Perez, 4, 3, Teodoro Fernandez, 2,
+4, Ricardo Arjona, 3, 5, "Roberto Carlos, 1, 6, Cecilia Paredes, 2,
+7, Pedro Fontes, 4, 8, Diego Perez", 3, "9", Nicolas Nicolas, 4,
+10, Agustina Pereiria, 1, 11, Osvaldo Blanco, 3, 12, Paola Paola, 1,
+13, Ximena Pereira, 2, 14, Gonzalo Gonzalo, 3, 15, Silvana Rodriguez, 2,
+16, Oscar Tabarez, 4, 17, Luis Miguel, 3, 18, Gabriel Gabriel, 3,
+
+19, Carlos Rodriguez, 2, 20, Nicole Neumann, 1, 21, Marcelo Tinelli, 4,
+22, David David, 2, 23, Diego Rodriguez, 2, 24, Juan Rodriguez, 1,
+25, Nicolas Baldez, 3, 26, Luis Suarez, 2, 27, Edison Cavani, 3

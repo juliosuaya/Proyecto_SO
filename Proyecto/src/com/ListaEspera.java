@@ -95,10 +95,10 @@ public class ListaEspera extends Thread {
         semaforo1ListaEspera.release();
     } //Libera semaforo de Agenda
 
-    public void agregarAgendados(Usuario[] usuarios) {
+    public void agregarAgendados(ArrayList<Usuario> usuarios) {
         try {
             semaforoListaNuevosAgendados.acquire(); //Tomo semaforo de lista de espera para asignar
-            listaNuevosAgendados.addAll(Arrays.asList(usuarios));//Agrego todos los usuarios de una fila i de la matriz a listaNuevosAgendados
+            listaNuevosAgendados.addAll(usuarios);//Agrego todos los usuarios de una fila i de la matriz a listaNuevosAgendados
             for(Usuario us : usuarios){us.iniciarVacunacion();} //Inicio la vacunacion de cada usuario de la fila i
 
         } catch (InterruptedException e) {
