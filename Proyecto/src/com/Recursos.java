@@ -8,8 +8,8 @@ public class Recursos extends Thread {
     public String centro;
     public String vacunador;
     public String vacuna;
-    public Semaphore sem1 = new Semaphore(0);
-    public Semaphore sem2 = new Semaphore(0);
+    public Semaphore sem1 = new Semaphore(0);//Empieza Trancado
+    public Semaphore sem2 = new Semaphore(0);//Empieza Trancado
     public Usuario usuario= null;
     private boolean fin = false;
 
@@ -32,11 +32,9 @@ public class Recursos extends Thread {
                             " y la vacuna: "+this.vacuna + ". Se vacuna a el usuario: "+ usuario+ " En el momento "+ Reloj.getTiempo());
                 }
 
-                sem2.release(); //Libero sem2 reanudar los recursos
-
+                sem2.release(); //le avisa al reloj que termino
             } catch (Exception e) {
         }
-        //Espero a que se agende a la lista
         }
     }
 

@@ -36,7 +36,7 @@ public class ListaEspera extends Thread {
         try {
             semaforoColaListaEspera.acquire();  // tomo semaforo de la cola de lista de espera
             for (Usuario agendado : listaNuevosAgendados) {
-                cola[agendado.prioridad].add(agendado); // agrego a cada uno a su cola respecto su prioridad
+                cola[agendado.obtenerPriorodad()].add(agendado); // agrego a cada uno a su cola respecto su prioridad
             }
             listaNuevosAgendados.clear(); // listo la lista de nuevos agendados
             semaforoColaListaEspera.release(); // libero semaforo de la cola de lista de espera

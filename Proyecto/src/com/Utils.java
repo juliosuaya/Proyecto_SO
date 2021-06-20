@@ -18,8 +18,8 @@ public class Utils {
             while(line != null) {
                 String[] content = line.split(",");
                 arr.add(new ArrayList<Usuario>());
-                for(int x = 0; x < content.length/3; x++) {
-                    arr.get(i).add(new Usuario(content[3*x].strip(), content[1+(3*x)].strip(), Integer.valueOf(content[2+(3*x)].strip())));
+                for(int x = 0; x < content.length/5; x++) {
+                    arr.get(i).add(new Usuario(content[5*x].strip(), content[1+(5*x)].strip(), Boolean.valueOf(content[2+(5*x)].strip()), Integer.valueOf(content[3+(5*x)].strip()),Boolean.valueOf(content[4+(5*x)].strip())));
                 }
                 i++;
                 line = br.readLine();

@@ -1,11 +1,12 @@
 
-1, Juan Rodriguez, 3, 2, Carlos Perez, 4, 3, Teodoro Fernandez, 2,
-4, Ricardo Arjona, 3, 5, "Roberto Carlos, 1, 6, Cecilia Paredes, 2,
-7, Pedro Fontes, 4, 8, Diego Perez", 3, "9", Nicolas Nicolas, 4,
-10, Agustina Pereiria, 1, 11, Osvaldo Blanco, 3, 12, Paola Paola, 1,
-13, Ximena Pereira, 2, 14, Gonzalo Gonzalo, 3, 15, Silvana Rodriguez, 2,
-16, Oscar Tabarez, 4, 17, Luis Miguel, 3, 18, Gabriel Gabriel, 3,
+Juan Rodriguez, 1, true, 30, false, Carlos Perez, 2, false, 70, false, Teodoro Fernandez, 3, false, 66, true
+Ricardo Arjona, 4, true, 40, true, "Roberto Carlos, 5, false, 30 , false, Cecilia Paredes, 6, false, 20, true
+Pedro Fontes, 7, false , 80, false, Diego Perez", 8, false, 22, false, Nicolas Nicolas, 9, false, 40, false
+Agustina Pereiria, 10, true, 80 , true, Osvaldo Blanco, 11, true,30, true, Paola Paola, 12, false, 40, true
+Ximena Pereira, 13, false, 70 , false, Gonzalo Gonzalo, 14, false, 33, true, Silvana Rodriguez, 15, false, 30, false
+Oscar Tabarez, 16, true, 30, true, Luis Miguel, 17,false, 40, true, Gabriel Gabriel, 18, false, 80, true
 
-19, Carlos Rodriguez, 2, 20, Nicole Neumann, 1, 21, Marcelo Tinelli, 4,
-22, David David, 2, 23, Diego Rodriguez, 2, 24, Juan Rodriguez, 1,
-25, Nicolas Baldez, 3, 26, Luis Suarez, 2, 27, Edison Cavani, 3
+Carlos Rodriguez, 19, false, 69 , false, Nicole Neumann, 20, false, 30, false ,Marcelo Tinelli, 21, true, 80, true
+David David, 22, true, 20 , false, Diego Rodriguez, 23, false, 70 , false ,  Juan Rodriguez, 24, false , 40 , false
+Nicolas Baldez, 25, false, 30, true, Luis Suarez, 26, false, 81, true, Edinson Cavani, 27 , false, 20 , false
+Arturo Gomez, 28 , true , 80 , false , Lionel Messi, 29 , false , 80 , false , Washington Perez, 30 , false , 40 , true
